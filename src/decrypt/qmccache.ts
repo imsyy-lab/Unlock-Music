@@ -17,7 +17,7 @@ import { parseBlob as metaParseBlob } from 'music-metadata-browser';
 export async function Decrypt(file: Blob, raw_filename: string, raw_ext: string): Promise<DecryptResult> {
   const buffer = await GetArrayBuffer(file);
 
-  let musicDecoded: Uint8Array | undefined;
+  let musicDecoded = new Uint8Array();
   if (globalThis.WebAssembly) {
     console.log('qmc: using wasm decoder');
 
@@ -27,19 +27,10 @@ export async function Decrypt(file: Blob, raw_filename: string, raw_ext: string)
       musicDecoded = qmcDecrypted.data;
       console.log('qmc wasm decoder suceeded');
     } else {
-      console.warn('QmcWasm failed with error %s', qmcDecrypted.error || '(unknown error)');
+      throw new Error(qmcDecrypted.error || '(unknown error)');
     }
   }
 
-  if (!musicDecoded) {
-    musicDecoded = new Uint8Array(buffer);
-    let length = musicDecoded.length;
-    for (let i = 0; i < length; i++) {
-      let byte = musicDecoded[i] ^ 0xf4; // xor 0xf4
-      byte = ((byte & 0b0011_1111) << 2) | (byte >> 6); // rol 2
-      musicDecoded[i] = byte;
-    }
-  }
   let ext = SniffAudioExt(musicDecoded, '');
   const newName = SplitFilename(raw_filename);
   let audioBlob: Blob;
