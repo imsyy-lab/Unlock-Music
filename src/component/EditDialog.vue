@@ -1,24 +1,4 @@
 <style scoped>
-label {
-  cursor: pointer;
-  line-height: 1.2;
-  display: block;
-}
-.item-desc {
-  color: #aaa;
-  font-size: small;
-  display: block;
-  line-height: 1.2;
-  margin-top: 0.2em;
-}
-.item-desc a {
-  color: #aaa;
-}
-
-form >>> input {
-  font-family: 'Courier New', Courier, monospace;
-}
-
 * >>> .um-edit-dialog {
   max-width: 90%;
   width: 30em;
@@ -29,57 +9,62 @@ form >>> input {
   <el-dialog @close="cancel()" title="音乐标签编辑" :visible="show" custom-class="um-edit-dialog" center>
     <el-form ref="form" status-icon :model="form" label-width="0">
       <section>
-        <el-image v-show="!editPicture" :src="imgFile.url || picture" style="width: 100px; height: 100px">
-          <div slot="error" class="image-slot el-image__error">暂无封面</div>
-        </el-image>
-        <el-upload v-show="editPicture" :auto-upload="false" :on-change="addFile" :on-remove="rmvFile" :show-file-list="true" :limit="1" list-type="picture" action="" drag>
-          <i class="el-icon-upload" />
-          <div class="el-upload__text">将新图片拖到此处，或<em>点击选择</em><br />以替换自动匹配的图片</div>
-          <div slot="tip" class="el-upload__tip">
-            新拖到此处的图片将覆盖原始图片
-          </div>
-        </el-upload> 
-        <i
-          :class="{'el-icon-edit': !editPicture, 'el-icon-check': editPicture}"
-          @click="changeCover"
-        ></i><br />
-        标题: 
-        <span v-show="!editTitle">{{title}}</span>
-        <el-input v-show="editTitle" v-model="title"></el-input>
-        <i
-          :class="{'el-icon-edit': !editTitle, 'el-icon-check': editTitle}"
-          @click="editTitle = !editTitle"
-        ></i><br />
-        艺术家: 
-        <span v-show="!editArtist">{{artist}}</span>
-        <el-input v-show="editArtist" v-model="artist"></el-input>
-        <i
-          :class="{'el-icon-edit': !editArtist, 'el-icon-check': editArtist}"
-          @click="editArtist = !editArtist"
-        ></i><br />
-        专辑: 
-        <span v-show="!editAlbum">{{album}}</span>
-        <el-input v-show="editAlbum" v-model="album"></el-input>
-        <i
-          :class="{'el-icon-edit': !editAlbum, 'el-icon-check': editAlbum}"
-          @click="editAlbum = !editAlbum"
-        ></i><br />
-        专辑艺术家: 
-        <span v-show="!editAlbumartist">{{albumartist}}</span>
-        <el-input v-show="editAlbumartist" v-model="albumartist"></el-input>
-        <i
-          :class="{'el-icon-edit': !editAlbumartist, 'el-icon-check': editAlbumartist}"
-          @click="editAlbumartist = !editAlbumartist"
-        ></i><br />
-        风格: 
-        <span v-show="!editGenre">{{genre}}</span>
-        <el-input v-show="editGenre" v-model="genre"></el-input>
-        <i
-          :class="{'el-icon-edit': !editGenre, 'el-icon-check': editGenre}"
-          @click="editGenre = !editGenre"
-        ></i><br />
+        <div class="music-cover">
+          <el-image v-show="!editPicture" :src="imgFile.url || picture">
+            <div slot="error" class="image-slot el-image__error">暂无封面</div>
+          </el-image>
+          <el-upload v-show="editPicture" :auto-upload="false" :on-change="addFile" :on-remove="rmvFile" :show-file-list="true" :limit="1" list-type="picture" action="" drag>
+            <i class="el-icon-upload" />
+            <div class="el-upload__text">将新图片拖到此处，或<em>点击选择</em><br />以替换自动匹配的图片</div>
+            <div slot="tip" class="el-upload__tip">
+              新拖到此处的图片将覆盖原始图片
+            </div>
+          </el-upload>
+          <i :class="{'el-icon-edit': !editPicture, 'el-icon-check': editPicture}"
+               @click="changeCover"></i>
+        </div>
 
-        <p class="item-desc">
+        <div class="edit-item">
+          <div class="label">标题</div>
+          <div class="value" v-show="!editTitle">{{title}}</div>
+          <el-input class="input" size="small" v-show="editTitle" v-model="title"/>
+          <i :class="{'el-icon-edit': !editTitle, 'el-icon-check': editTitle}"
+             @click="editTitle = !editTitle"/>
+        </div>
+        <div class="edit-item">
+          <div class="label">艺术家</div>
+          <div class="value" v-show="!editArtist">{{artist}}</div>
+          <el-input class="input" size="small" v-show="editArtist" v-model="artist"/>
+          <i :class="{'el-icon-edit': !editArtist, 'el-icon-check': editArtist}"
+             @click="editArtist = !editArtist"
+          />
+        </div>
+        <div class="edit-item">
+          <div class="label">专辑</div>
+          <div class="value" v-show="!editAlbum">{{album}}</div>
+          <el-input class="input" size="small" v-show="editAlbum" v-model="album"/>
+          <i :class="{'el-icon-edit': !editAlbum, 'el-icon-check': editAlbum}"
+             @click="editAlbum = !editAlbum"
+          />
+        </div>
+        <div class="edit-item">
+          <div class="label">专辑艺术家</div>
+          <div class="value" v-show="!editAlbumartist">{{albumartist}}</div>
+          <el-input class="input" size="small" v-show="editAlbumartist" v-model="albumartist"/>
+          <i :class="{'el-icon-edit': !editAlbumartist, 'el-icon-check': editAlbumartist}"
+             @click="editAlbumartist = !editAlbumartist"
+          />
+        </div>
+        <div class="edit-item">
+          <div class="label">风格</div>
+          <div class="value" v-show="!editGenre">{{genre}}</div>
+          <el-input class="input" size="small" v-show="editGenre" v-model="genre"/>
+          <i :class="{'el-icon-edit': !editGenre, 'el-icon-check': editGenre}"
+             @click="editGenre = !editGenre"
+          />
+        </div>
+
+        <p class="tip">
           为了节省您设备的资源，请在确定前充分检查，避免反复修改。<br />
           直接关闭此对话框不会保留所作的更改。
         </p>
