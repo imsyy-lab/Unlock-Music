@@ -1,10 +1,61 @@
 @import "variables";
 @import "utility";
 @import "gaps";
-@import "element-ui-overrite";
+@import "element-ui-overwrite";
 
-@import "normal";
-@import "dark-mode"; // dark-mode 放在 normal 后面，以获得更高优先级
+// UNIVERSAL STYLE
+
+
+
+// MAIN CONTENT
+
+body{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: "PingFang SC", "微软雅黑", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+  font-size: $fz-main;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  text-align: center;
+  color: $text-main;
+  padding: 30px;
+}
+
+// 音频文件操作
+#app-control {
+  margin-top: 20px;
+}
+
+// 音频播放
+audio{
+  margin-top: 20px;
+}
+
+.table-content{
+  margin-top: 20px;
+}
+
+// footer
+#app-footer {
+  margin-top: 40px;
+  text-align: center;
+  color: $text-comment;
+  line-height: 1.3;
+  font-size: $fz-mini-content;
+  a {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    color: darken($text-comment, 10%);
+    &:hover{
+      color: $color-link;
+    }
+  }
+}
 
 
 // 首页弹窗提示信息的 更新信息 面板
@@ -15,12 +66,14 @@
   margin: 10px 0;
   .update-title{
     font-size: $fz-mini-title;
-    padding: 5px 10px;
+    padding: 3px 10px;
     background-color: $color-border-el;
   }
   .update-content{
     font-size: $fz-mini-content;
     line-height: 1.5;
-    padding: 10px;
+    padding: 5px 8px;
   }
 }
+
+@import "dark-mode"; // dark-mode 放在 normal 后面，以获得更高优先级

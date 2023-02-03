@@ -188,12 +188,19 @@
 
   // LINKS
   a{
-    text-decoration: none;
-    color: darken($dark-color-link, 15%);
-    &:hover{
-      color: $dark-color-link;
+
+  }
+
+  // footer
+  #app-footer {
+    a {
+      color: lighten($text-comment, 5%);
+      &:hover{
+        color: $color-link;
+      }
     }
   }
+
 
   // ALERT
   .el-notification{

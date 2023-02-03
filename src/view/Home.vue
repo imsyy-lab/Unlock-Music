@@ -44,7 +44,13 @@
 
     <audio :autoplay="playing_auto" :src="playing_url" controls />
 
-    <PreviewTable :policy="filename_policy" :table-data="tableData" @download="saveFile" @edit="editFile" @play="changePlaying" />
+    <PreviewTable
+      class="table-content"
+      :policy="filename_policy"
+      :table-data="tableData"
+      @download="saveFile"
+      @edit="editFile"
+      @play="changePlaying" />
   </div>
 </template>
 
