@@ -50,8 +50,6 @@
 
 ### 自行构建
 
-#### JS部分
-
 - 环境要求
   - nodejs (v16.x)
   - npm
@@ -59,6 +57,7 @@
 1. 获取项目源代码后安装相关依赖：
 
    ```sh
+   npm install
    npm ci
    ```
 
@@ -75,16 +74,4 @@
 
    ```sh
    npm run make-extension
-   ```
-
-#### WASM部分
-
-- 环境要求
-  - Linux
-  - python3
-
-- 运行此目录下的build-wasm
-
-   ```sh
-   ./scripts/build-wasm.sh
    ```
