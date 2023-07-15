@@ -18,7 +18,9 @@
           :album="editing_data.album"
           :albumartist="editing_data.albumartist"
           :genre="editing_data.genre"
-          @cancel="showEditDialog = false" @ok="handleEdit"></edit-dialog>
+          @cancel="showEditDialog = false"
+          @ok="handleEdit"
+        ></edit-dialog>
         <config-dialog :show="showConfigDialog" @done="showConfigDialog = false"></config-dialog>
         <el-tooltip class="item" effect="dark" placement="top">
           <div slot="content">
@@ -37,14 +39,20 @@
               开启后，解锁结果将不会存留于浏览器中，防止内存不足。
             </span>
           </div>
-            <el-checkbox v-model="instant_save" type="success" border class="ml-2">立即保存</el-checkbox>
+          <el-checkbox v-model="instant_save" type="success" border class="ml-2">立即保存</el-checkbox>
         </el-tooltip>
       </el-row>
     </div>
 
     <audio :autoplay="playing_auto" :src="playing_url" controls />
 
-    <PreviewTable :policy="filename_policy" :table-data="tableData" @download="saveFile" @edit="editFile" @play="changePlaying" />
+    <PreviewTable
+      :policy="filename_policy"
+      :table-data="tableData"
+      @download="saveFile"
+      @edit="editFile"
+      @play="changePlaying"
+    />
   </div>
 </template>
 
@@ -70,7 +78,7 @@ export default {
     return {
       showConfigDialog: false,
       showEditDialog: false,
-      editing_data: { picture: '', title: '', artist: '', album: '', albumartist: '', genre: '', },
+      editing_data: { picture: '', title: '', artist: '', album: '', albumartist: '', genre: '' },
       tableData: [],
       playing_url: '',
       playing_auto: false,
@@ -111,7 +119,7 @@ export default {
           errInfo +
           '，' +
           filename +
-          '，参考<a target="_blank" href="https://github.com/ix64/unlock-music/wiki/使用提示">使用提示</a>',
+          '，参考<a target="_blank" href="https://git.unlock-music.dev/um/web/wiki/使用提示">使用提示</a>',
         dangerouslyUseHTMLString: true,
         duration: 6000,
       });
@@ -164,12 +172,13 @@ export default {
             console.warn('获取图像失败', this.editing_data.picture);
           }
         }
-        const newMeta = { picture: imageInfo?.buffer,
+        const newMeta = {
+          picture: imageInfo?.buffer,
           title: data.title,
           artists: data.artist.split(split_regex),
           album: data.album,
           albumartist: data.albumartist,
-          genre: data.genre.split(split_regex)
+          genre: data.genre.split(split_regex),
         };
         const buffer = Buffer.from(await this.editing_data.blob.arrayBuffer());
         const mime = AudioMimeType[this.editing_data.ext] || AudioMimeType.mp3;

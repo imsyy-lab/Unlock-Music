@@ -7,7 +7,7 @@
   "description": "Unlock encrypted music file in browser.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ix64/unlock-music"
+    "url": "https://git.unlock-music.dev/um/web"
   },
   "private": true,
   "scripts": {

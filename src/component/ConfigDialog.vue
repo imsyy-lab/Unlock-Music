@@ -43,7 +43,9 @@ form >>> input {
           下载该加密文件的 JOOX 应用所记录的设备唯一识别码。
           <br />
           参见：
-          <a href="https://github.com/unlock-music/joox-crypto/wiki/%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87-UUID">
+          <a
+            href="https://git.unlock-music.dev/um/joox-crypto/wiki/%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87-UUID#%E5%89%8D%E8%A8%80"
+          >
             获取设备 UUID · unlock-music/joox-crypto Wiki</a
           >。
         </p>
