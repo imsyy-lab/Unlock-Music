@@ -1,9 +1,10 @@
 ---
 
-name: Bug报告
-about: 报告Bug以帮助改进程序
-title: ''
+name: "Bug 报告"
+about: "报告Bug以帮助改进程序"
+title: "[BUG] "
 labels:
+
 - bug
 
 ---
