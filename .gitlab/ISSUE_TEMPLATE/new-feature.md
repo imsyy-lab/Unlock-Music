@@ -1,9 +1,10 @@
 ---
 
-name: 新功能
-about: 对于程序新的想法或建议
-title: ''
+name: "新功能"
+about: "对于程序新的想法或建议"
+title: "[新功能] "
 labels:
+
 - enhancement
 
 ---
