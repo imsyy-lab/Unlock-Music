@@ -2,7 +2,7 @@ import { QmcCrypto } from '@xhacker/qmcwasm/QmcWasmBundle';
 import QmcCryptoModule from '@xhacker/qmcwasm/QmcWasmBundle';
 import { MergeUint8Array } from '@/utils/MergeUint8Array';
 
-// 每次处理 2M 的数据
+// 每次可以处理 2M 的数据
 const DECRYPTION_BUF_SIZE = 2 *1024 * 1024;
 
 export interface QMCDecryptionResult {
@@ -38,11 +38,12 @@ export async function DecryptQmcWasm(qmcBlob: ArrayBuffer, ext: string): Promise
   // 申请内存块，并文件末端数据到 WASM 的内存堆
   const qmcBuf = new Uint8Array(qmcBlob);
   const pQmcBuf = QmcCryptoObj._malloc(DECRYPTION_BUF_SIZE);
-  QmcCryptoObj.writeArrayToMemory(qmcBuf.slice(-DECRYPTION_BUF_SIZE), pQmcBuf);
+  const preDecDataSize = Math.min(DECRYPTION_BUF_SIZE, qmcBlob.byteLength); // 初始化缓冲区大小
+  QmcCryptoObj.writeArrayToMemory(qmcBuf.slice(-preDecDataSize), pQmcBuf);
 
   // 进行解密初始化
   ext = '.' + ext;
-  const tailSize = QmcCryptoObj.preDec(pQmcBuf, DECRYPTION_BUF_SIZE, ext);
+  const tailSize = QmcCryptoObj.preDec(pQmcBuf, preDecDataSize, ext);
   if (tailSize == -1) {
     result.error = QmcCryptoObj.getErr();
     return result;
