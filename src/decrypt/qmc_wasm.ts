@@ -1,7 +1,8 @@
-import QmcCryptoModule from '@/QmcWasm/QmcWasmBundle';
+import { QmcCrypto } from '@xhacker/qmcwasm/QmcWasmBundle';
+import QmcCryptoModule from '@xhacker/qmcwasm/QmcWasmBundle';
 import { MergeUint8Array } from '@/utils/MergeUint8Array';
 
-// 每次处理 2M 的数据
+// 每次可以处理 2M 的数据
 const DECRYPTION_BUF_SIZE = 2 *1024 * 1024;
 
 export interface QMCDecryptionResult {
@@ -21,32 +22,33 @@ export async function DecryptQmcWasm(qmcBlob: ArrayBuffer, ext: string): Promise
   const result: QMCDecryptionResult = { success: false, data: new Uint8Array(), songId: 0, error: '' };
 
   // 初始化模组
-  let QmcCrypto: any;
+  let QmcCryptoObj: QmcCrypto;
 
   try {
-    QmcCrypto = await QmcCryptoModule();
+    QmcCryptoObj = await QmcCryptoModule();
   } catch (err: any) {
     result.error = err?.message || 'wasm 加载失败';
     return result;
   }
-  if (!QmcCrypto) {
+  if (!QmcCryptoObj) {
     result.error = 'wasm 加载失败';
     return result;
   }
 
   // 申请内存块，并文件末端数据到 WASM 的内存堆
   const qmcBuf = new Uint8Array(qmcBlob);
-  const pQmcBuf = QmcCrypto._malloc(DECRYPTION_BUF_SIZE);
-  QmcCrypto.writeArrayToMemory(qmcBuf.slice(-DECRYPTION_BUF_SIZE), pQmcBuf);
+  const pQmcBuf = QmcCryptoObj._malloc(DECRYPTION_BUF_SIZE);
+  const preDecDataSize = Math.min(DECRYPTION_BUF_SIZE, qmcBlob.byteLength); // 初始化缓冲区大小
+  QmcCryptoObj.writeArrayToMemory(qmcBuf.slice(-preDecDataSize), pQmcBuf);
 
   // 进行解密初始化
   ext = '.' + ext;
-  const tailSize = QmcCrypto.preDec(pQmcBuf, DECRYPTION_BUF_SIZE, ext);
+  const tailSize = QmcCryptoObj.preDec(pQmcBuf, preDecDataSize, ext);
   if (tailSize == -1) {
-    result.error = QmcCrypto.getError();
+    result.error = QmcCryptoObj.getErr();
     return result;
   } else {
-    result.songId = QmcCrypto.getSongId();
+    result.songId = QmcCryptoObj.getSongId();
     result.songId = result.songId == "0" ? 0 : result.songId;
   }
 
@@ -58,13 +60,13 @@ export async function DecryptQmcWasm(qmcBlob: ArrayBuffer, ext: string): Promise
 
     // 解密一些片段
     const blockData = new Uint8Array(qmcBuf.slice(offset, offset + blockSize));
-    QmcCrypto.writeArrayToMemory(blockData, pQmcBuf);
-    decryptedParts.push(QmcCrypto.HEAPU8.slice(pQmcBuf, pQmcBuf + QmcCrypto.decBlob(pQmcBuf, blockSize, offset)));
+    QmcCryptoObj.writeArrayToMemory(blockData, pQmcBuf);
+    decryptedParts.push(QmcCryptoObj.HEAPU8.slice(pQmcBuf, pQmcBuf + QmcCryptoObj.decBlob(pQmcBuf, blockSize, offset)));
 
     offset += blockSize;
     bytesToDecrypt -= blockSize;
   }
-  QmcCrypto._free(pQmcBuf);
+  QmcCryptoObj._free(pQmcBuf);
 
   result.data = MergeUint8Array(decryptedParts);
   result.success = true;
