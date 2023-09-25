@@ -9,7 +9,7 @@
     </el-table-column>
     <el-table-column label="歌曲">
       <template #default="scope">
-        <span>{{ scope.row.title }}</span>
+        <p>{{ scope.row.title }}</p>
       </template>
     </el-table-column>
     <el-table-column label="歌手">

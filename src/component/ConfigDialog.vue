@@ -4,16 +4,6 @@ label {
   line-height: 1.2;
   display: block;
 }
-.item-desc {
-  color: #aaa;
-  font-size: small;
-  display: block;
-  line-height: 1.2;
-  margin-top: 0.2em;
-}
-.item-desc a {
-  color: #aaa;
-}
 
 form >>> input {
   font-family: 'Courier New', Courier, monospace;
@@ -39,7 +29,7 @@ form >>> input {
           </el-form-item>
         </label>
 
-        <p class="item-desc">
+        <p class="tip">
           下载该加密文件的 JOOX 应用所记录的设备唯一识别码。
           <br />
           参见：

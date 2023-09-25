@@ -3,17 +3,16 @@ $blue      : #409EFF;
 $red       : #F56C6C;
 $green     : #85ce61;
 
-// TEXT
-$text-main : #2C3E50;
-$color-link: $blue;
+// TEXT COLOR
+$text-main      : #2C3E50;
+$text-copyright : #777;
+$text-comment   : #999;
+$color-link     : $blue;
 
+// FONT SIZE
 $fz-main: 14px;
 $fz-mini-title: 13px;
 $fz-mini-content: 12px;
-
-$font-family: "Helvetica Neue", Helvetica, "PingFang SC",
-"Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-
 
 // DARK MODE
 $dark-border                : lighten(black, 25%);

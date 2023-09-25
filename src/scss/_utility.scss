@@ -66,6 +66,7 @@
 }
 
 .btn-like{
+  cursor: pointer;
   &:active{
     @include transform(translateY(2px))
   }

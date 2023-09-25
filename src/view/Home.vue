@@ -47,12 +47,12 @@
     <audio :autoplay="playing_auto" :src="playing_url" controls />
 
     <PreviewTable
+      class="table-content"
       :policy="filename_policy"
       :table-data="tableData"
       @download="saveFile"
       @edit="editFile"
-      @play="changePlaying"
-    />
+      @play="changePlaying" />
   </div>
 </template>
 
